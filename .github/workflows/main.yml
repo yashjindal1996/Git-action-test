@@ -4,6 +4,8 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     steps:
+      - name: Run bvt suite if PR approved
+        uses: actions/checkout@v2
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
       - name: test
