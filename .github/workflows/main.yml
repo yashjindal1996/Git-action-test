@@ -8,4 +8,5 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
       - name: test
         run: |
+           ls
            python ./.github/sample.py
