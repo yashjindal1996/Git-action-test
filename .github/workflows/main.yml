@@ -8,4 +8,4 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
       - name: test
         run: |
-           sh ./.github/actions/triggerBvtSuite.sh '${{ steps.file_changes.outputs.files}}'
+           sh ./.github/actions/ski_run.sh '${{ steps.file_changes.outputs.files}}'
