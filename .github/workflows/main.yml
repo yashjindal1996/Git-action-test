@@ -8,4 +8,4 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
       - name: test
         run: |
-           sh ./.github/action/skip_run.sh '${{ steps.file_changes.outputs.files}}'
+           sh ./action/skip_run.sh '${{ steps.file_changes.outputs.files}}'
