@@ -1,0 +1,9 @@
+skip_bvt_files:
+  - expressConf/*
+  - conf/*
+  - .github/*
+  - app/testdata/*
+  - .drone.yml
+  - .dockerignore
+  - .gitignore
+  - Dockerfile.cov
