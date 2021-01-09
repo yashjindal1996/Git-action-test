@@ -10,7 +10,7 @@ jobs:
       - uses: dorny/paths-filter@v2
         id: changes
         with:
-          filters: .github/file-filters.yml
+          filters: .github/file-filter.yml
       - name: Run bvt
         if: steps.changes.outputs.skip_bvt_files == 'false'
         run: |
