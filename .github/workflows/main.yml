@@ -1,21 +1,32 @@
 name: PR Workflow
-
 on:
-  pull_request:
-    paths-ignore:
-      - expressConf/*
-      - conf/*
-      - .github/*
-      - app/testdata/*
-      - .drone.yml
-      - .dockerignore
-      - .gitignore
-      - Dockerfile.cov
-
+  pull_request
+      
 jobs:
-  pull_request:
+  tests:
     runs-on: ubuntu-latest
     steps:
-      - name: Run bvt suite if PR approved
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            skip_bvt_files:
+              - expressConf/*
+              - conf/*
+              - .github/*
+              - app/testdata/*
+              - .drone.yml
+              - .dockerignore
+              - .gitignore
+              - Dockerfile.cov
+            
+      - name: Run bvt
+        if: steps.filter.outputs.skip_bvt_files == 'false'
         run: |
-          echo "skipping test"
+          echo "running bvt"
+
+      - name: skip bvt
+        if: steps.filter.outputs.skip_bvt_files == 'true'
+        run: |
+            echo "skip bvt and mark pipeline success"
