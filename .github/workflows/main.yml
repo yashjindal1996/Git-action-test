@@ -1,21 +1,33 @@
 name: PR Workflow
 on:
-  pull_request
+  pull_request:
+    paths-ignore:
 
 jobs:
-  skip_individual_steps_job:
+  tests:
     runs-on: ubuntu-latest
     steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: filter
         with:
-          cancel_others: 'false'
-          paths_ignore: '["expressConf/*","conf/*",".github/*","app/testdata/*",".drone.yml",".dockerignore",".gitignore","Dockerfile.cov"]'
-      - if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
+          filters: |
+            skip_bvt_files:
+              - expressConf/*
+              - conf/*
+              - .github/*
+              - app/testdata/*
+              - .drone.yml
+              - .dockerignore
+              - .gitignore
+              - Dockerfile.cov
+
+      - name: Run bvt
+        if: steps.filter.outputs.skip_bvt_files == 'false'
         run: |
-          echo "Run bvt pipeline"
-      - if: ${{ steps.skip_check.outputs.should_skip == 'true' }}
-        run: | 
-          echo "skipping bvt"
+          echo "running bvt"
 
-
+      - name: Run bvt
+        if: steps.filter.outputs.skip_bvt_files == 'true'
+        run: |
+          echo "skip bvt and mark pipeline success"
