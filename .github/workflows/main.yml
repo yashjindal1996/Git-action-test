@@ -17,6 +17,6 @@ jobs:
           echo "running bvt"
 
       - name: skip bvt
-        if: steps.filter.outputs.skip_bvt_files == 'true'
+        if: steps.changes.outputs.skip_bvt_files == 'true'
         run: |
           echo "skip bvt and mark pipeline success"
