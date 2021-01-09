@@ -10,7 +10,7 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'false'
-          paths_ignore: '["expressConf/*","conf/*",".github/*","app/testdata/*",".drone.yml",".dockerignore",".gitignore","Dockerfile.cov"]'
+          paths: '["expressConf/*","conf/*",".github/*","app/testdata/*",".drone.yml",".dockerignore",".gitignore","Dockerfile.cov"]'
       - if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
         run: |
           echo "Run bvt pipeline"
