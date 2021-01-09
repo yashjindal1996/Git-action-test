@@ -12,14 +12,14 @@ jobs:
         with:
           filters: |
             skip_bvt_files:
-              - expressConf/*
-              - conf/*
-              - .github/*
-              - app/testdata/*
-              - .drone.yml
-              - .dockerignore
-              - .gitignore
-              - Dockerfile.cov
+              - '!expressConf/*'
+              - '!conf/*'
+              - '!.github/*'
+              - '!app/testdata/*'
+              - '!.drone.yml'
+              - '!.dockerignore'
+              - '!.gitignore'
+              - '!Dockerfile.cov'
             
       - name: Run bvt
         if: steps.filter.outputs.skip_bvt_files == 'false'
