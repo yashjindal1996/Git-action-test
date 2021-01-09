@@ -3,20 +3,19 @@ on:
   pull_request
 
 jobs:
-  tests:
+  skip_individual_steps_job:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: dorny/paths-filter@v2
-        id: changes
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
         with:
-          filters: .github/file-filters.yml
-      - name: Run bvt
-        if: steps.changes.outputs.skip_bvt_files == 'false'
+          cancel_others: 'false'
+          paths_ignore: '["expressConf/*","conf/*",".github/*","app/testdata/*",".drone.yml",".dockerignore",".gitignore","Dockerfile.cov"]'
+      - if: ${{ steps.skip_check.outputs.should_skip != 'true' }}
         run: |
-          echo "running bvt"
+          echo "Run bvt pipeline"
+      - if: ${{ steps.skip_check.outputs.should_skip == 'true' }}
+        run: | 
+          echo "skipping bvt"
 
-      - name: skip bvt
-        if: steps.filter.outputs.skip_bvt_files == 'true'
-        run: |
-          echo "skip bvt and mark pipeline success"
+
