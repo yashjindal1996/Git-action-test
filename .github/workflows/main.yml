@@ -1,5 +1,8 @@
 name: push-develop
-on: [pull_request]
+on:
+  pull_request:
+    paths-ignore: 
+      - test2.yaml
 jobs:
   changes:
     runs-on: ubuntu-latest
